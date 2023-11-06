@@ -1,0 +1,111 @@
+﻿@model List<CartItem>
+@{
+    ViewData["Title"] = "Checkout";
+}
+@using System.Security.Claims
+@using Data_Layer.Repository.Implementation
+@using Data_Layer.Repository.Interface
+@using BusinessObject;
+
+<h1>Checkout</h1>
+<hr />
+@{
+    IUserRepository userRepository = new UserRepository();
+}
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered text-center" style="width:100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td><img src="@item.Image" alt="Product Image" style="width:75px;height:75px;" /></td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Price</td>
+                    <td>$@(item.Price*item.Quantity)</td>
+                </tr>
+            }
+            <tr>
+                <td class="table-primary" colspan="5">
+                    TOTAL
+                </td>
+                <td class="table-primary" colspan="2">
+                    @{
+                        float Total = 0;
+                        foreach (var item in Model)
+                        {
+                            Total += (float)item.Quantity * (float)item.Price;
+                        }
+                    }
+                    $@Total.ToString("0.00")
+                    <input type="hidden" value="@Total" name="TotalPrice" form="checkoutfrm" />
+                    <input type="hidden" value="@Model.Count()" name="NumOfItems" form="checkoutfrm" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <span class="alert alert-danger">Empty</span>
+    <br />
+}
+@{ string email = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email).Value;
+    User loginUser = userRepository.GetUser(email);
+}
+<br />
+<h2>Contact Info</h2>
+<table>
+    <tbody>
+        <tr>
+            <td>Fullname</td>
+            <td>@loginUser.FullName</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>@loginUser.PhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@loginUser.Email</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input type="text" name="Address" value="@loginUser.Address" form="checkoutfrm" />
+                <input type="hidden" name="UserId" value="@loginUser.UserId" form="checkoutfrm" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<style>
+    table td {
+        padding: 10px;
+    }
+
+        table td input {
+            width: 500px;
+        }
+</style>
+
+<form method="POST" asp-controller="Checkout" asp-action="Checkout" id="checkoutfrm"></form>
+
+<hr />
+<div class="row">
+    <a href="/Guest" class="btn btn-success col-2" style="margin-left:15px;"> <i class="fas fa-arrow-left"></i> &nbsp; Continue Shopping</a>
+    <div class="col-8" style="padding:0;"></div>
+    <input type="submit" class="btn btn-primary col" style="margin-right: 15px;" form="checkoutfrm" value="Confirm" />
+</div>

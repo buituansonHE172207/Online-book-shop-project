@@ -1,0 +1,119 @@
+﻿@model ShoppingWebApp.Models.UserEditModel
+@using BusinessObject
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update Your Information</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Error
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.Success))
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewBag.Success
+            </div>
+        }
+        <form asp-action="Update">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="UserId" type="hidden" />
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" readonly />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Avatar" class="control-label d-inline"></label>
+
+                <img src="@Model.Avatar" id="avatarImg" alt="User Avatar" class="img-thumbnail d-inline ml-2">
+
+                <input asp-for="Avatar" hidden />
+
+                <label for="userAvatar" class="control-label d-block">Change your avatar</label>
+                <input type="file" class="form-control-file" accept="image/png, image/jpeg, image/jpg" id="userAvatar" name="userAvatar" />
+                <span class="form-text text-muted" hidden id="avatarLoading">Uploading your avatar...</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="@true">Male</option>
+                    <option value="@false">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" aria-describedby="passwordRequired" />
+                <small id="passwordRequired" class="form-text text-muted">Enter your password to update your information</small>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NewPassword" class="control-label"></label>
+                <input asp-for="NewPassword" class="form-control" type="password" aria-describedby="newPasswordText" />
+                <small id="newPasswordText" class="form-text text-muted">Enter your new password here if you want to update your password. Leave blank if you don't want to</small>
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Confirm" class="control-label"></label>
+                <input asp-for="Confirm" class="form-control" type="password" aria-describedby="confirmText" />
+                <small id="confirmText" class="form-text text-muted">Confirm your new Password</small>
+                <span asp-validation-for="Confirm" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyAJrQ2G9NZaFKlN4U43kt-0_4DpAjGVzgc",
+            authDomain: "clothshopping-6fd63.firebaseapp.com",
+            projectId: "clothshopping-6fd63",
+            storageBucket: "clothshopping-6fd63.appspot.com",
+            messagingSenderId: "274541815825",
+            appId: "1:274541815825:web:a973b0960ce601c60129b0",
+            measurementId: "G-NZ69P8X0JT"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+
+    <script src="~/js/updateUser.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

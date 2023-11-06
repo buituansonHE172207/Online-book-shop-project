@@ -1,0 +1,95 @@
+﻿@model List<CartItem>
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Security.Claims
+@using Data_Layer.Repository.Implementation
+@using Data_Layer.Repository.Interface
+@using BusinessObject
+@{
+    IUserRepository userRepository = new UserRepository();
+}
+<h1>Your Cart</h1>
+<hr />
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered text-center" style="width:100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td><img src="@item.Image" alt="Product Image" style="width:75px;height:75px;" /></td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Price</td>
+                    <td>$@(item.Price * item.Quantity)</td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Cart" asp-action="Remove"
+                               asp-route-ProductId="@item.ProductId" class="btn btn-danger mx-2">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="table-primary" colspan="5">
+                    TOTAL
+                </td>
+                <td class="table-primary" colspan="2">
+                    @{
+                        float Total = 0;
+                        foreach (var item in Model)
+                        {
+                            Total += (float)item.Quantity * (float)item.Price;
+                        }
+                    }
+                    $@Total.ToString("0.00")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <span class="alert alert-danger">Empty</span>
+    <br />
+    <style>
+        #chkoutbtn {
+            pointer-events: none;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
+}
+
+@{
+    var checklogin = User.Claims.FirstOrDefault(cl => cl.Type == ClaimTypes.Email);
+}
+<hr />
+<div class="row">
+    <a href="/Guest" class="btn btn-success col-2" style="margin-left:15px;"> <i class="fas fa-arrow-left"></i> &nbsp; Continue Shopping</a>
+    <div class="col-8" style="padding:0;"></div>
+    @if (checklogin != null)
+    {
+        <a class="btn btn-primary col" style="margin-right: 15px;" id="chkoutbtn" asp-area="" asp-controller="Cart" asp-action="Checkout">Checkout</a>
+    }
+    else
+    {
+        <a class="btn btn-primary col" style="margin-right: 15px;" id="chkoutbtn" asp-area="" asp-controller="Login" asp-action="Index">Checkout</a>
+    }
+</div>

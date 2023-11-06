@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<h1>Access Denied!!</h1>
+<hr />
+<div class="row">
+    <div class="text-danger">You don't have permission to access this page!!! <a asp-action="Index" asp-controller="Home">Click here</a> to go back to Home page!</a></div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

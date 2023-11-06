@@ -1,0 +1,106 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Guest";
+}
+@using BusinessObject
+@{
+    List<Product> Products = Model.Products;
+    List<Category> Categories = Model.Categories;
+}
+<div class="row pt-4">
+    <div class="col-4">
+        <h1>Welcome</h1>
+    </div>
+
+    <div class="col-8">
+        <form method="POST" asp-controller="Guest" asp-action="Search">
+            <div class="input-group">
+                <div class="form-outline">
+                    <input type="search" class="form-control" name="ProductName" value="@ViewBag.SearchValue" />
+                    <label class="form-label">Product Name</label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="height:40px">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            @if (Categories.Count() > 0)
+            {
+                @foreach (var category in Model.Categories)
+                {
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                       asp-action="Filter" asp-route-CategoryName="@category.CategoryName">
+                        @category.CategoryName
+                    </a>
+                }
+            }
+        </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Page content-->
+        <div class="container-fluid">
+            @if (Products.Count() > 0)
+            {
+                <div class="container p-3">
+                    <div class="container-fluid">
+                        <div class="row d-inline-flex">
+                            @foreach (var product in Model.Products)
+                            {
+                                if (product.Status == true)
+                                {
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <img class="card-img-top h-50" src="@product.Image" alt="Card image cap"
+                                                 style="height:400px !important;">
+                                            <form method="POST" asp-controller="Cart" asp-action="Add">
+                                                <input type="hidden" name="ProductId" value="@product.ProductId" />
+                                                <div class="card-body" style="font-size:90%;">
+                                                    <h6 class="card-title text-info">@product.ProductName</h6>
+                                                    <p class="card-text">
+                                                        Price: $@product.Price |
+                                                        Quantity:
+                                                        <input name="Quantity" type="number" value="1" min="1" max="100"
+                                                               step="1" oninput="validity.valid||(value='');" />
+                                                    </p>
+                                                    <input type="submit" class="btn btn-primary" value="Add to cart" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="text-info" style="margin:2rem;">
+                    No result matched!
+                </p>
+
+                <br />
+            }
+        </div>
+    </div>
+</div>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+    </script>
+
+}  

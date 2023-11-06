@@ -1,0 +1,105 @@
+﻿@using BusinessObject
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center pt-5">Manage products</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success ml-3">Add new product  <i class="fas fa-plus"></i></a>
+</p>
+
+<form asp-controller="Products" asp-action="Index" method="get" class="my-5">
+    <div class="form-row col-12">
+        <div class="form-group col-md-4">
+            <label for="category">Category</label>
+            <select id="category" name="categoryId" asp-items="ViewBag.Category" class="form-control">
+                <option value="">All</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="product-status">Status</label>
+            <select name="status" id="product-status" class="form-control">
+                <option value="">All</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
+        @*<input type="submit" value="Filter" class="btn btn-primary col-md-4" />*@
+    </div>
+    <button type="submit" class="btn btn-primary col-md-2 ml-3">Filter</button>
+</form>
+
+<table class="table table-striped table-bordered mydatatable">
+    <thead>
+        <tr>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Category
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @if (item.Status == true)
+                    {
+                        <span>Active</span>
+                    }
+                    else
+                    {
+                        <span>Unactive</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(".mydatatable").DataTable();
+    </script>
+}

@@ -1,0 +1,70 @@
+﻿@using BusinessObject
+@model Product
+
+@{
+    ViewData["Title"] = "Product";
+}
+<style>
+    .wrapper {
+        display: flex;
+    }
+    .detail-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+<h1 class="text-center pt-5">Product details</h1>
+
+<div class="wrapper my-5">
+    <div class="detail-wrapper col-12 col-md-6">
+        <dl>
+            <dt class="col-12">
+                Product Name
+            </dt>
+            <dd class="col-12">
+                @Html.DisplayFor(model => model.ProductName)
+            </dd>
+            <dt class="col-12">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-12">
+                $@Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-12">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+            <dd class="col-12">
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt class="col-12">
+                Status
+            </dt>
+            <dd class="col-12">
+                @if (Model.Status == true)
+                {
+                    <span>Active</span>
+                }
+                else
+                {
+                    <span>Inactive</span>
+                }
+            </dd>
+            <dt class="col-12">
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd class="col-12">
+                @Html.DisplayFor(model => model.Category.CategoryName)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+    <div class="image-wrapper col-12 col-md-4">
+        <img src="@Model.Image" width="350" height="350" />
+    </div>
+</div>
+

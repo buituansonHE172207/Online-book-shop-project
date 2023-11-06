@@ -1,0 +1,118 @@
+﻿@using BusinessObject
+@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Account";
+}
+
+<h1 class="text-center pt-5">Manage accounts</h1>
+
+
+<form asp-controller="Users" asp-action="Filter" method="get" class="my-5">
+
+        <div class="form-group col-md-2">
+            <label for="account-status">Status</label>
+            <select name="status" id="account-status" class="form-control">
+                <option value="">All</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary col-md-1 ml-3">Filter</button>
+</form>
+<table class="table table-striped table-bordered mydatatable">
+    <thead>
+        <tr>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleNavigation.RoleName)
+            </th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @if (String.IsNullOrEmpty(item.PhoneNumber))
+                {
+                    <span>No info</span>
+                }
+                else @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @if (String.IsNullOrEmpty(item.Gender.ToString()))
+                {
+                    <span>No info</span>
+                }
+                else if(item.Gender == true)
+                {
+                    <span>Male</span>
+                } else
+                {
+                    <span>Female</span>
+                }
+            </td>
+            <td>
+                @if (String.IsNullOrEmpty(item.Birthday.ToString()))
+                {
+                    <span>No info</span>
+                }
+                else
+                {
+                    <span>@item.Birthday.ToString().Remove(item.Birthday.ToString().IndexOf(' '))</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleNavigation.RoleName)
+            </td>
+            <td>
+                @if(item.Status == true)
+                {
+                    <span>Active</span>
+                } else
+                {
+                    <span>Unactive</span>
+                }
+            </td>
+            
+            <td>
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+    <thead>
+    </thead>
+</table>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(".mydatatable").DataTable();
+    </script>
+}

@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="row">
+    <div class="col-md-5">
+        @if (TempData["SignUp"] != null && !string.IsNullOrEmpty(TempData["SignUp"].ToString()))
+        {
+            <p class="alert alert-success" role="alert">@TempData["SignUp"]</p>
+        }
+
+        <form method="POST" action="Login">
+            @Html.AntiForgeryToken()
+            <h1>Login</h1>
+            <hr />
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" name="email" type="email" class="form-control" value="@ViewBag.Email" />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" name="password" type="password" class="form-control" />
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <a asp-action="Google" asp-controller="Login" class="btn btn-outline-primary">
+                    <i class="fab fa-google"></i> Login with Google
+                </a>
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+                <a asp-action="ForgotPassword" asp-controller="Login" class="text-decoration-none">Forgot your Password?</a>
+            </div>
+        </form>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-danger mt-3" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
