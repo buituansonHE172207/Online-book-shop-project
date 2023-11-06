@@ -88,17 +88,17 @@ namespace ShoppingWebApp.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            var authenticationProperties = new AuthenticationProperties
+            var authenticationProperties = new AuthenticationProperties()
             {
-                RedirectUri = Url.Action("GoogleCallback")
-            };
+                RedirectUri = Url.Action("GoogleCallBack")
+                
+            }; 
             return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> GoogleCallback()
+        public async Task<IActionResult> GoogleCallBack()
         {
-
             try
             {
                 var request = HttpContext.Request;
@@ -116,7 +116,6 @@ namespace ShoppingWebApp.Controllers
                 }
 
                 var email = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
-                //IUserRepository _userRepository = new UserRepository();
                 User user = userRepository.GetUser(email);
 
                 if (user != null)
@@ -126,7 +125,6 @@ namespace ShoppingWebApp.Controllers
                 else
                 {
                     await HttpContext.SignOutAsync();
-                    //TempData["Email"] = email;
                     string fullname = externalUser.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
                     return RedirectToAction("Index", "Signup", new { email, fullname });
                 }
@@ -149,7 +147,6 @@ namespace ShoppingWebApp.Controllers
             string email = string.Empty;
             if (User.Identity.IsAuthenticated)
             {
-                // User is authenticated
                 email = User.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Value;
             }
 
