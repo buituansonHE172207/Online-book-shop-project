@@ -17,54 +17,48 @@
 
 <h1 class="text-center pt-5">Product details</h1>
 
-<div class="wrapper my-5">
-    <div class="detail-wrapper col-12 col-md-6">
-        <dl>
-            <dt class="col-12">
-                Product Name
-            </dt>
-            <dd class="col-12">
-                @Html.DisplayFor(model => model.ProductName)
-            </dd>
-            <dt class="col-12">
-                @Html.DisplayNameFor(model => model.Price)
-            </dt>
-            <dd class="col-12">
-                $@Html.DisplayFor(model => model.Price)
-            </dd>
-            <dt class="col-12">
-                @Html.DisplayNameFor(model => model.Quantity)
-            </dt>
-            <dd class="col-12">
-                @Html.DisplayFor(model => model.Quantity)
-            </dd>
-            <dt class="col-12">
-                Status
-            </dt>
-            <dd class="col-12">
-                @if (Model.Status == true)
-                {
-                    <span>Active</span>
-                }
-                else
-                {
-                    <span>Inactive</span>
-                }
-            </dd>
-            <dt class="col-12">
-                @Html.DisplayNameFor(model => model.Category)
-            </dt>
-            <dd class="col-12">
-                @Html.DisplayFor(model => model.Category.CategoryName)
-            </dd>
-        </dl>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-            <a asp-action="Index">Back to List</a>
+<div class="container my-5">
+    <div class="row">
+        <!-- Details -->
+        <div class="col-12 col-md-6">
+            <dl class="row">
+                <dt class="col-12">Product Name</dt>
+                <dd class="col-12">@Html.DisplayFor(model => model.ProductName)</dd>
+
+                <dt class="col-12">@Html.DisplayNameFor(model => model.Price)</dt>
+                <dd class="col-12">$@Html.DisplayFor(model => model.Price)</dd>
+
+                <dt class="col-12">@Html.DisplayNameFor(model => model.Quantity)</dt>
+                <dd class="col-12">@Html.DisplayFor(model => model.Quantity)</dd>
+
+                <dt class="col-12">Status</dt>
+                <dd class="col-12">
+                    @if (Model.Status == true)
+                    {
+                        <span class="text-primary">Active</span>
+                    }
+                    else
+                    {
+                        <span class="text-alert">Inactive</span>
+                    }
+                </dd>
+
+                <dt class="col-12">@Html.DisplayNameFor(model => model.Category)</dt>
+                <dd class="col-12">@Html.DisplayFor(model => model.Category.CategoryName)</dd>
+            </dl>
+            <div class="mt-3">
+                <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-primary">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
+            </div>
+        </div>
+
+        <!-- Image -->
+        <div class="col-12 col-md-6">
+            <div class="text-center">
+                <img src="@Model.Image" alt="Product Image" class="img-fluid" style="max-width: 100%;" />
+            </div>
         </div>
     </div>
-    <div class="image-wrapper col-12 col-md-4">
-        <img src="@Model.Image" width="350" height="350" />
-    </div>
 </div>
+
 

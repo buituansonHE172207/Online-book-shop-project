@@ -40,14 +40,12 @@ namespace ShoppingWebApp.Models
         public string Password { get; set; }
 
         [Display(Name = "New Password")]
-        [Required]
         [StringLength(100, MinimumLength = 8)]
-        public string NewPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         [Display(Name = "Confirm")]
         [StringLength(100, MinimumLength = 8)]
-        [Required]
-        public string Confirm { get; set; }
+        public string? Confirm { get; set; }
 
     }
 

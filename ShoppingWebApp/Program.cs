@@ -1,20 +1,19 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using ShoppingWebApp.CustomHandler;
 using ShoppingWebApp.Middlewares;
 using System.Security.Claims;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-var services = builder.Services;
-services.AddControllersWithViews();
-services.AddAuthentication(options =>
+
+builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
-    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+    .AddGoogle(options =>
     {
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
@@ -26,44 +25,34 @@ services.AddAuthentication(options =>
         config.AccessDeniedPath = "/Login/UserAccessDenied";
     });
 
-services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
 
-// Authorization
-services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie("CookieAuthentication", config =>
-    {
-        config.Cookie.Name = "UserLoginCookie";
-        config.LoginPath = "/Login";
-        config.LogoutPath = "/Login/LogOut";
-        config.AccessDeniedPath = "/Login/UserAccessDenied";
-    });
-
-services.AddAuthorization(config =>
+builder.Services.AddAuthorization(options =>
 {
-    config.AddPolicy("UserPolicy", policyBuilder =>
+    options.AddPolicy("UserPolicy", policyBuilder =>
     {
         policyBuilder.UserRequireCustomClaim(ClaimTypes.Role);
-
     });
 });
 
-services.AddScoped<IAuthorizationHandler, PoliciesAuthorizationHandler>();
-services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, PoliciesAuthorizationHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, RolesAuthorizationHandler>();
 
-services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 
-
-services.AddDistributedMemoryCache();
-services.AddSession(options =>
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(12);
-    options.Cookie.Name = ".yourApp.Session"; // <--- Add line
+    options.Cookie.Name = ".yourApp.Session";
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo("DataProtectionKeys"));
 
-// Session for other
-services.AddHttpContextAccessor();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -87,3 +76,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+

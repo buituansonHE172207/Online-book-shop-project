@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Clothes Shopping</title>
+    <title>@ViewData["Title"] - CLothes store</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -28,7 +28,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container">
 
-                <a class="navbar-brand bold" asp-area="" asp-controller="Home" asp-action="Index">Clothes Shopping</a>
+                <a class="navbar-brand bold" asp-area="" asp-controller="Home" asp-action="Index">Clothes store</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -80,10 +80,13 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Order</a>
                                 </li>
                                 <li class="nav-item ml-3">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Statistic" asp-action="Index">Statistic</a>
+                                </li>
+                                <li class="nav-item ml-3">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Log out</a>
                                 </li>
                                 <li class="nav-item ml-3">
-                                    <a class="nav-link text-dark" asp-controller="@loginUser.RoleNavigation.RoleName" asp-action="Index">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index">
                                         <i class="fas fa-user"></i> Welcome, @loginUser.FullName
                                     </a>
                                 </li>
@@ -121,7 +124,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - ClothesShoppingWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Clothes store - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

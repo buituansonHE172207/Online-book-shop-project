@@ -65,7 +65,7 @@ namespace ShoppingWebApp.Controllers
                         ItemPrice = item.Price,
                         Quantity = item.Quantity
                     };
-                    orderDetailRepository.AddOrderDetailtoOrder(orderDetail);
+                    orderDetailRepository.AddOrderDetailToOrder(orderDetail);
                 }
                 list.Clear();
                 HttpContext.Session.SetComplexData("CART", list);
