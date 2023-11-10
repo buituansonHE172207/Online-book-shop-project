@@ -193,7 +193,7 @@ namespace ShoppingWebApp.Controllers
                 MailboxAddress to = new MailboxAddress(fullname, email);
                 message.To.Add(to);
 
-                message.Subject = "Reset your Password - Clothes Shopping";
+                message.Subject = "Reset your Password - Online Shopping";
 
                 BodyBuilder bodyBuilder = new BodyBuilder();
                 bodyBuilder.HtmlBody = $"<h2>Reset your Password</h2>" +
@@ -227,8 +227,6 @@ namespace ShoppingWebApp.Controllers
             {
                 if (email != null && !string.IsNullOrEmpty(email))
                 {
-                    // Get User
-                    //IUserRepository userRepository = new UserRepository();
                     User user = userRepository.GetUser(email);
                     if (user != null)
                     {
@@ -240,7 +238,7 @@ namespace ShoppingWebApp.Controllers
 
                         // Mail Server
                         SmtpClient client = new SmtpClient();
-                        client.Connect("smtp.gmail.com", 587, true);
+                        client.Connect("smtp.gmail.com", 465, true);
                         client.Authenticate("btson1407@gmail.com", "xczd yhgg zeup ijpe");
 
                         // Send

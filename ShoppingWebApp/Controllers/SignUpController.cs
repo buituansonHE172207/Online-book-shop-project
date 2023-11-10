@@ -30,10 +30,6 @@ namespace ShoppingWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(SignUpModel user)
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
             bool isError = false;
             string message = string.Empty;
             if (ModelState.IsValid)
@@ -74,19 +70,8 @@ namespace ShoppingWebApp.Controllers
                     }
                 }
                 
-            }// else
-            //{
-            //    foreach (var key in ModelState.Keys)
-            //    {
-            //        var entry = ModelState[key];
-            //        foreach (var error in entry.Errors)
-            //        {
-            //            Console.WriteLine($"Property: {key}, Error: {error.ErrorMessage}");
-            //        }
-            //    }
-            //}
+            }
            
-
             if (isError)
             {
                 ViewBag.Error = message;

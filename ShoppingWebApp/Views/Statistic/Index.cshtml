@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ShoppingWebApp.Models.StatisticModel>
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+
+
+<div class="container mt-3 ">
+    <h1 class="mt-3 text-center">Product Sale Statistics</h1>
+    <h5 class="text-center">From @(DateOnly.FromDateTime((DateTime)TempData["from"])) To @(DateOnly.FromDateTime((DateTime)TempData["to"]))</h5>
+    <form method="get" asp-action="Index" class="align-items-center">
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <label for="startDate" class="mr-2">Start Date:</label>
+                <input type="date" id="startDate" name="from" class="form-control"  value="01/01/2020"/>
+            </div>
+            <div class="col-md-4 mb-2">
+                <label for="endDate" class="mr-2">End Date:</label>
+                <input type="date" id="endDate" name="to" class="form-control" />
+            </div>
+            <div class="col-md-1 mb-2 ">
+                <label for="filter" class="mr-2"></label>
+                <button type="submit" class="btn btn-primary form-control" id="filter" >Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    Revenue
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        $@Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        $@(item.Price * item.Quantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -31,7 +31,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserPolicy", policyBuilder =>
     {
-        policyBuilder.RequireClaim(ClaimTypes.Role);
+        policyBuilder.UserRequireCustomClaim(ClaimTypes.Role);
     });
 });
 

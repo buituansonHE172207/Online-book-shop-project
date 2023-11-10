@@ -18,7 +18,7 @@ namespace ShoppingWebApp.Controllers
             userRepository = new UserRepository();
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -48,7 +48,7 @@ namespace ShoppingWebApp.Controllers
             }
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(UserEditModel user)

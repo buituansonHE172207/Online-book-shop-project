@@ -80,6 +80,7 @@
 };
 
         firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
     </script>
     <script>
         function upLoadImage() {
@@ -99,7 +100,6 @@
                     })
                     .catch(error => console.error(error));
             } else {
-                // Hide the error message when a file is selected
                 $("#uploadImageError").attr("hidden", true);
             }                  
         }

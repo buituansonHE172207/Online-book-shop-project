@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Update";
-
 }
 
 <h1>Update Your Information</h1>
@@ -107,25 +106,23 @@
 </div>
 
 @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
-
+    <!-- Remove unnecessary Firebase libraries -->
+    
     <script>
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         var firebaseConfig = {
-            apiKey: "AIzaSyAJrQ2G9NZaFKlN4U43kt-0_4DpAjGVzgc",
-            authDomain: "clothshopping-6fd63.firebaseapp.com",
-            projectId: "clothshopping-6fd63",
-            storageBucket: "clothshopping-6fd63.appspot.com",
-            messagingSenderId: "274541815825",
-            appId: "1:274541815825:web:a973b0960ce601c60129b0",
-            measurementId: "G-NZ69P8X0JT"
-        };
+  apiKey: "AIzaSyBTacUpNPM80k671JR_RWwukt069Jrj6b0",
+  authDomain: "swift-habitat-399214.firebaseapp.com",
+  projectId: "swift-habitat-399214",
+  storageBucket: "swift-habitat-399214.appspot.com",
+  messagingSenderId: "284624158623",
+  appId: "1:284624158623:web:f2c08ebd7ea6f099ec07aa",
+  measurementId: "G-HHQE8MNHW9"
+};
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();

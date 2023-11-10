@@ -15,7 +15,6 @@ namespace ShoppingWebApp.Controllers
             productRepository = new ProductRepository();
         }
 
-        //Show Cart Table
         [Authorize(Policy = "UserPolicy")]
         public IActionResult Index()
         {
@@ -31,7 +30,6 @@ namespace ShoppingWebApp.Controllers
         [Authorize(Roles = "User")]
         public IActionResult Checkout()
         {
-
             var cart = HttpContext.Session.GetComplexData<List<CartItem>>("CART");
             List<CartItem> list = new List<CartItem>();
             if (cart != null)
@@ -48,14 +46,10 @@ namespace ShoppingWebApp.Controllers
         public IActionResult Add(int ProductId, int Quantity)
         {
             var product = productRepository.GetProductById(ProductId);
-
             var cart = HttpContext.Session.GetComplexData<List<CartItem>>("CART");
-
             if (cart != null)
             {
-
                 var list = (List<CartItem>)cart;
-
                 if (list.Exists(i => i.ProductId == product.ProductId))
                 {
                     foreach (var item in list)
@@ -68,9 +62,9 @@ namespace ShoppingWebApp.Controllers
                     HttpContext.Session.SetComplexData("CART", list);
                 }
 
-                else //if list does not contain that item yet
+                else 
                 {
-                    //New item
+
                     var item = new CartItem();
                     item.ProductId = product.ProductId;
                     item.ProductName = product.ProductName;
@@ -81,9 +75,8 @@ namespace ShoppingWebApp.Controllers
                     HttpContext.Session.SetComplexData("CART", list);
                 }
             }
-            else //if cart is null
+            else 
             {
-                //New item
                 var item = new CartItem();
                 item.ProductId = product.ProductId;
                 item.ProductName = product.ProductName;
@@ -92,11 +85,9 @@ namespace ShoppingWebApp.Controllers
                 item.Quantity = Quantity;
                 var list = new List<CartItem>();
                 list.Add(item);
-
-                //Assign to cart
                 HttpContext.Session.SetComplexData("CART", list);
             }
-            return Redirect("/Guest");
+            return NoContent();
         }
 
         //GET - REMOVE
